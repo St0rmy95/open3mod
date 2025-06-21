@@ -76,7 +76,18 @@ namespace AssimpNet.Interop.Generator {
                 writerParams.WriteSymbols = true;
             }
 
-            AssemblyDefinition assemblyDef = AssemblyDefinition.ReadAssembly(filePath, readerParams);
+            AssemblyDefinition assemblyDef;
+
+			try
+            {
+                assemblyDef = AssemblyDefinition.ReadAssembly(filePath, readerParams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
             ((BaseAssemblyResolver) assemblyDef.MainModule.AssemblyResolver).AddSearchDirectory(Path.GetDirectoryName(filePath));
 
             AssemblyDefinition mscorLib = null;
